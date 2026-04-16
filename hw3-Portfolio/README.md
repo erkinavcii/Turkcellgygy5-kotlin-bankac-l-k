@@ -1,5 +1,9 @@
 # Android Jetpack Compose Profil Tasarımı (Ödev 3)
 
+Aşağıda bu kodlarla hazırlanan ve çalışan uygulamanın ekran çıktısını görebilirsiniz:
+
+![Portfolyo Örnek Görseli](portfolio.png)
+
 Selam! Bu klasörde senin için Android Studio'da tamamen şık ve çalışır durumda bir **Jetpack Compose Profil Tasarımı** hazırladım.
 
 ## Kodun Sahip Olduğu Özellikler
