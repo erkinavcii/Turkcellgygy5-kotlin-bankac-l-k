@@ -1,0 +1,18 @@
+# Android & Gradle
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+
+# Ödevlere Özel Güvenlik (API Keyler vb.)
+# Supabase anahtarlarını içeren bu dosyayı git'e göndermiyoruz:
+hw6-LibraryApp/data/remote/SupabaseConfig.kt
+
+# Diğer
+bin/
+gen/
+out/
+.DS_Store
+*.apk
+*.aar
