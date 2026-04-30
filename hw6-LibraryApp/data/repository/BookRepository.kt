@@ -11,7 +11,12 @@ import kotlinx.coroutines.withContext
  */
 class BookRepository(private val postgrest: Postgrest) {
 
-    // 1. Arama Fonksiyonu (Başlığa göre filtreleme)
+    // 1. Kitap Ekleme Fonksiyonu
+    suspend fun addBook(book: Book) = withContext(Dispatchers.IO) {
+        postgrest["books"].insert(book)
+    }
+
+    // 2. Arama Fonksiyonu (Başlığa göre filtreleme)
     suspend fun searchBooks(query: String): List<Book> = withContext(Dispatchers.IO) {
         return@withContext postgrest["books"]
             .select(columns = Columns.ALL) {
