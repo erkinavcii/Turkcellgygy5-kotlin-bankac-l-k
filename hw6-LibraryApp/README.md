@@ -1,45 +1,52 @@
-# LibraryApp - Supabase Entegrasyonu (Ödev 1, 2, 3)
+# 📚 LibraryApp - Turkcell GYGY 5.0 (Ödev 6)
 
-Bu klasörde, LibraryApp projesinin Supabase ile güçlendirilmiş 3 farklı ödev adımını tamamladım.
+Bu proje, Turkcell Geleceği Yazan Gençler (GYGY) 5.0 Kotlin Eğitimleri kapsamında geliştirilmiş olan kapsamlı bir kütüphane yönetim uygulamasıdır. Proje, modern Android geliştirme standartları (Jetpack Compose, MVVM) ve Supabase bulut veritabanı entegrasyonu ile oluşturulmuştur.
 
-## 📝 Tamamlanan Görevler
+## 🚀 Özellikler
 
-### ÖDEV 1: Kayıt Ol Success Yapısı
-- `AuthState` sınıfı genişletilerek `Success` durumu eklendi.
-- `AuthViewModel` içinde kayıt işlemi başarılı olduğunda bu state tetikleniyor.
-- `RegisterScreen` içinde `LaunchedEffect` kullanılarak, `Success` durumu geldiğinde kullanıcının otomatik olarak ana sayfaya yönlendirilmesi sağlandı.
+- **🔐 Kullanıcı Yetkilendirme (Authentication):**
+    - Supabase Auth kullanarak E-posta ve Şifre ile Kayıt Olma.
+    - Kayıtlı kullanıcılar için Güvenli Giriş Yapma.
+    - Oturum kapatma (Logout) işlevi.
+- **📖 Kitap Yönetimi (CRUD):**
+    - **Ekleme:** İnteraktif diyalog penceresi ile yeni kitapları veritabanına kaydetme.
+    - **Listeleme:** Veritabanındaki kitapları şık kart tasarımları (CardView) ile görüntüleme.
+    - **Arama:** Kitap adı veya yazar ismine göre anlık filtreleme.
+    - **Düzenleme:** Mevcut kitap bilgilerini diyalog üzerinden güncelleme.
+    - **Silme:** Kitapları tek tıkla veritabanından kalıcı olarak kaldırma.
 
-### ÖDEV 2: BookRepository Geliştirmeleri
-- `BookRepository` sınıfı, Supabase Postgrest kütüphanesi kullanılarak şu fonksiyonlarla donatıldı:
-    - **Arama (`searchBooks`):** `ilike` filtresi ile kitap adına göre arama.
-    - **Güncelleme (`updateBook`):** Mevcut kitap verilerini ID üzerinden güncelleme.
-    - **Silme (`deleteBook`):** Kitabı ID üzerinden veritabanından kaldırma.
+## 🛠 Kullanılan Teknolojiler
 
-### ÖDEV 3: Kitap Kartı Tasarımı (BookCard)
-- `BookCard.kt` adında ayrı bir Composable bileşeni oluşturuldu.
-- Tasarımda; Kitap Başlığı, Yazar, Kategori, Sayfa Sayısı ve **Stok Durumu** (Mevcut/Yok) bilgileri görselleştirildi.
-- Düzenle ve Sil butonları eklendi.
+- **Dil:** Kotlin
+- **UI Framework:** Jetpack Compose (Modern Bildirimsel Arayüz)
+- **Mimari:** MVVM (Model-View-ViewModel)
+- **Veritabanı & Auth:** Supabase (PostgreSQL & GoTrue)
+- **Networking:** Ktor Client
+- **Veri İşleme:** Kotlinx Serialization
+- **Navigasyon:** Jetpack Compose Navigation
 
-## 🗄️ Veritabanı Şeması (Supabase SQL)
+## ⚙️ Kurulum ve Yapılandırma
 
-Projenin çalışması için Supabase SQL editöründe şu tabloyu oluşturmalısınız:
+1. **Supabase Projesi:** [Supabase](https://supabase.com/) üzerinden bir proje oluşturun.
+2. **Tablo Yapısı:** SQL Editor üzerinden `books` tablosunu aşağıdaki gibi oluşturun:
+   ```sql
+   create table public.books (
+     id uuid default gen_random_uuid() primary key,
+     title text not null,
+     author text not null,
+     isbn text,
+     category text,
+     page_count int4 default 0
+   );
+   ```
+3. **RLS Politikaları:** `anon` ve `authenticated` rolleri için gerekli SELECT, INSERT, UPDATE, DELETE izinlerini tanımlayın.
+4. **API Anahtarları:** `SupabaseConfig.kt` dosyası içerisine kendi `URL` ve `ANON_KEY` bilgilerinizi girin.
 
-```sql
-create table books (
-  id uuid primary key default gen_random_uuid(),
-  title text not null,
-  author text not null,
-  isbn text default '',
-  category text default '',
-  page_count integer not null,
-  total_copies integer not null default 1,
-  available_copies integer not null default 1
-);
+## 📱 Ekran Görüntüleri
 
-create policy "Kitaplar herkes tarafından görüntülenebilir"
-on books for select
-using (true);
-```
+*   **Giriş/Kayıt:** Kullanıcı dostu, Material3 tasarımlı giriş ekranları.
+*   **Kütüphane Listesi:** Arama çubuğu ve yüzer işlem butonu (FAB) içeren ana ekran.
+*   **İşlem Diyalogları:** Kitap ekleme ve düzenleme için açılır pencereler.
 
-## 🚀 Entegrasyon Notları
-Kodlar `io.github.jan-tennert.supabase` kütüphanesi ile uyumlu yazılmıştır. Projenize kopyalarken kendi Supabase URL ve API Key tanımlamalarınızı yapmayı unutmayın.
+---
+*Bu proje Erkin Avcı tarafından Turkcell GYGY 5.0 eğitimi final ödevi olarak hazırlanmıştır.* 🎓
