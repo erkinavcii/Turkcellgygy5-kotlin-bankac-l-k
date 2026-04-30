@@ -1,8 +1,8 @@
-# Metin2 Temalı OOP (Nesne Yönelimli Programlama) Ödevi
+# Metin2 ile OOP (Nesne Yönelimli Programlama) Ders Notları
 
-Bu ödevde, Nesne Yönelimli Programlamanın (OOP) 4 temel prensibi olan **Encapsulation, Inheritance, Polymorphism ve Abstraction** kavramlarını, popüler MMORPG oyunu **Metin2** karakterleri üzerinden açıkladım. 
+Selam! Bu dökümanda Programlamanın 4 büyük temel taşını (Encapsulation, Inheritance, Polymorphism, Abstraction) bir AI gibi değil, herkesin bildiği **Metin2** üzerinden anlatmaya çalıştım. 
 
-Neden Metin2? Çünkü sınıflar, karakter tipleri ve yetenekler bu konseptleri anlamak için en somut örnekleri sunuyor.
+Neden Metin2? Çünkü sınıflar, karakterler ve skiller tam olarak bu iş için biçilmiş kaftan.
 
 ---
 

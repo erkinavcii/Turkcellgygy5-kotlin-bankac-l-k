@@ -1,8 +1,8 @@
-package com.example.libraryapp.data.repository
+package com.example.turkcellintro.data.repository
 
-import com.example.libraryapp.data.model.Book
-import io.github.jan_tennert.supabase.postgrest.Postgrest
-import io.github.jan_tennert.supabase.postgrest.query.Columns
+import com.example.turkcellintro.data.model.Book
+import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.query.Columns
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -29,14 +29,7 @@ class BookRepository(private val postgrest: Postgrest) {
 
     // 2. Güncelleme Fonksiyonu
     suspend fun updateBook(book: Book) = withContext(Dispatchers.IO) {
-        postgrest["books"].update(
-            {
-                Book::title set book.title
-                Book::author set book.author
-                Book::category set book.category
-                Book::available_copies set book.available_copies
-            }
-        ) {
+        postgrest["books"].update(book) {
             filter {
                 eq("id", book.id ?: "")
             }

@@ -58,8 +58,8 @@ class Sura(isim: String) : Karakter(isim, "Sura") {
 fun main() {
     println("=== METIN2 OOP DÜNYASINA GİRİŞ ===\n")
 
-    val kahraman1 = Savasci("Kahraman1")
-    val kahraman2 = Sura("Sura1")
+    val kahraman1 = Savasci("ErkinReis")
+    val kahraman2 = Sura("KaranlikSura")
 
     // Selam verme (Ortak fonksiyon kullanımı)
     kahraman1.selamVer()
@@ -77,5 +77,5 @@ fun main() {
 
     println("\n--- HASAR ALMA VE KAPSÜLLEME ---")
     kahraman1.hasarAl(30)
-    println("${kahraman1.isim} adlı karakterin güncel canı: ${kahraman1.hpGoster()}")
+    println("Savaşçının güncel canı: ${kahraman1.hpGoster()}")
 }

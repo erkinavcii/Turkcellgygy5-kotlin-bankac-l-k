@@ -1,8 +1,8 @@
-package com.example.libraryapp.data.remote
+package com.example.turkcellintro.data.remote
 
-import io.github.jan_tennert.supabase.createSupabaseClient
-import io.github.jan_tennert.supabase.gotrue.Auth
-import io.github.jan_tennert.supabase.postgrest.Postgrest
+import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.gotrue.Auth
+import io.github.jan.supabase.postgrest.Postgrest
 
 /**
  * GERÇEK SUPABASE BAĞLANTISI

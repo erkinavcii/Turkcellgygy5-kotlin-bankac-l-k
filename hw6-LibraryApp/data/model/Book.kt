@@ -1,4 +1,4 @@
-package com.example.libraryapp.data.model
+package com.example.turkcellintro.data.model
 
 import kotlinx.serialization.Serializable
 
@@ -8,12 +8,12 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class Book(
-    val id: String? = null, // UUID
-    val title: String,
-    val author: String,
+    val id: String? = null,
+    val title: String = "",
+    val author: String = "",
     val isbn: String = "",
     val category: String = "",
-    val page_count: Int,
+    val page_count: Int = 0,
     val total_copies: Int = 1,
     val available_copies: Int = 1
 )

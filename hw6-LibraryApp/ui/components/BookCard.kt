@@ -1,4 +1,4 @@
-package com.example.libraryapp.ui.components
+package com.example.turkcellintro.ui.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.libraryapp.data.model.Book
+import com.example.turkcellintro.data.model.Book
 
 /**
  * ÖDEV 3: KİTAP KART TASARIMI (Composable)
