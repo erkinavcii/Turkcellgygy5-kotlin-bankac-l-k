@@ -21,14 +21,15 @@ import kotlinx.coroutines.launch
 @Composable
 fun BookListScreen(
     repository: BookRepository,
-    onLogout: () -> Unit
+    onLogout: () -> Unit,
+    onNavigateToMyBorrows: () -> Unit // Yeni navigasyon
 ) {
     val scope = rememberCoroutineScope()
     var books by remember { mutableStateOf<List<Book>>(emptyList()) }
     var searchQuery by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(true) }
 
-    // Diyalog Durumları
+    // ... (mevcut diyalog durumları) ...
     var showAddDialog by remember { mutableStateOf(false) }
     var showEditDialog by remember { mutableStateOf<Book?>(null) }
 
@@ -53,6 +54,10 @@ fun BookListScreen(
                     }
                 },
                 actions = {
+                    // KİRALAMALARIM BUTONU
+                    IconButton(onClick = onNavigateToMyBorrows) {
+                        Icon(Icons.Default.Add, contentDescription = "Kiralamalarım")
+                    }
                     IconButton(onClick = {
                         scope.launch {
                             books = repository.searchBooks(searchQuery)
@@ -105,6 +110,12 @@ fun BookListScreen(
                             },
                             onUpdateClick = {
                                 showEditDialog = book
+                            },
+                            onBorrowClick = {
+                                scope.launch {
+                                    repository.borrowBook(book)
+                                    books = repository.getAllBooks() // Stok güncellendiği için listeyi tazele
+                                }
                             }
                         )
                     }

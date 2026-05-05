@@ -13,6 +13,7 @@ import com.example.turkcellintro.data.repository.BookRepository
 import com.example.turkcellintro.ui.screen.BookListScreen
 import com.example.turkcellintro.ui.screen.LoginScreen
 import com.example.turkcellintro.ui.screen.RegisterScreen
+import com.example.turkcellintro.ui.screen.MyBorrowsScreen
 import io.github.jan.supabase.postgrest.postgrest
 
 class MainActivity : ComponentActivity() {
@@ -51,7 +52,16 @@ class MainActivity : ComponentActivity() {
                                     navController.navigate("login") {
                                         popUpTo("home") { inclusive = true }
                                     }
-                                }
+                                },
+                                onNavigateToMyBorrows = { navController.navigate("my_borrows") }
+                            )
+                        }
+
+                        // 4. Kiralamalarım Ekranı
+                        composable("my_borrows") {
+                            MyBorrowsScreen(
+                                repository = bookRepository,
+                                onBack = { navController.popBackStack() }
                             )
                         }
                     }

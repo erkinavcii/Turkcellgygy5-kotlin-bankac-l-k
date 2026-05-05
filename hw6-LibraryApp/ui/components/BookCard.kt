@@ -3,6 +3,7 @@ package com.example.turkcellintro.ui.components
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -17,7 +18,8 @@ import com.example.turkcellintro.data.model.Book
 fun BookCard(
     book: Book,
     onDeleteClick: () -> Unit = {},
-    onUpdateClick: () -> Unit = {}
+    onUpdateClick: () -> Unit = {},
+    onBorrowClick: () -> Unit = {}
 ) {
     Card(
         modifier = Modifier
@@ -48,16 +50,31 @@ fun BookCard(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Stok Durumu Göstergesi
-            val statusColor = if (book.available_copies > 0) Color(0xFF4CAF50) else Color.Red
-            val statusText = if (book.available_copies > 0) "Mevcut (${book.available_copies})" else "Stokta Yok"
+            // Stok Durumu ve Ödünç Al Butonu Mantığı
+            val isAvailable = book.available_copies > 0
             
-            Text(
-                text = statusText,
-                color = statusColor,
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (isAvailable) {
+                    Text(
+                        text = "Stokta Var (${book.available_copies})",
+                        color = Color(0xFF4CAF50),
+                        fontWeight = FontWeight.Bold
+                    )
+                    Button(onClick = onBorrowClick) {
+                        Text("ÖDÜNÇ AL")
+                    }
+                } else {
+                    Text(
+                        text = "STOKTA YOK",
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(12.dp))
 
