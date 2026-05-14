@@ -10,4 +10,8 @@ val appModule = module {
     viewModel {
         LoginViewModel(get())
     }
+
+    viewModel {
+        RegisterViewModel(get())
+    }
 }

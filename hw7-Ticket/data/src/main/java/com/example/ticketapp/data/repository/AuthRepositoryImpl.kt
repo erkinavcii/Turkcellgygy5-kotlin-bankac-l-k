@@ -23,6 +23,30 @@ class AuthRepositoryImpl(
         }
     }
 
+    override suspend fun register(
+        firstName: String,
+        lastName: String,
+        email: String,
+        password: String
+    ): Result<AuthResponse> = withContext(Dispatchers.IO) {
+        try {
+            val request = mapOf(
+                "firstName" to firstName,
+                "lastName" to lastName,
+                "email" to email,
+                "password" to password
+            )
+            val response = authService.register(request)
+            if (response.isSuccessful && response.body() != null) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception("Kayıt başarısız: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     override suspend fun logout(): Result<Unit> = withContext(Dispatchers.IO) {
         try {
             val response = authService.logout()
