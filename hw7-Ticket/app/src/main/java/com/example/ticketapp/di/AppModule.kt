@@ -1,6 +1,8 @@
 package com.example.ticketapp.di
 
+import com.example.ticketapp.ui.dashboard.DashboardViewModel
 import com.example.ticketapp.ui.login.LoginViewModel
+import com.example.ticketapp.ui.register.RegisterViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -11,7 +13,13 @@ val appModule = module {
         LoginViewModel(get())
     }
 
+    // RegisterViewModel'ı Koin'e kaydet
     viewModel {
         RegisterViewModel(get())
+    }
+
+    // DashboardViewModel'ı Koin'e kaydet (EventRepository, TicketRepository, SessionManager)
+    viewModel {
+        DashboardViewModel(get(), get(), get())
     }
 }

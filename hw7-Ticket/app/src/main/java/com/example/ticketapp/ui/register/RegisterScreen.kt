@@ -16,6 +16,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun RegisterScreen(
     viewModel: RegisterViewModel = koinViewModel(),
+    onNavigateToDashboard: () -> Unit,
     onNavigateToLogin: () -> Unit
 ) {
     val context = LocalContext.current
@@ -95,7 +96,7 @@ fun RegisterScreen(
             when (state) {
                 is RegisterUiState.Success -> {
                     Toast.makeText(context, "Kayıt Başarılı! Hoş geldin ${state.data.user.firstName}", Toast.LENGTH_LONG).show()
-                    // Opsiyonel: Başarılı kayıt sonrası login'e veya home'a yönlendirilebilir
+                    onNavigateToDashboard()
                 }
                 is RegisterUiState.Error -> {
                     Toast.makeText(context, "Hata: ${state.message}", Toast.LENGTH_LONG).show()

@@ -7,16 +7,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class AuthRepositoryImpl(
-    private val authService: AuthService
+    private val authService: AuthService,
+    private val sessionManager: com.example.ticketapp.core.SessionManager
 ) : AuthRepository {
 
     override suspend fun login(email: String, password: String): Result<AuthResponse> = withContext(Dispatchers.IO) {
         try {
             val response = authService.login(mapOf("email" to email, "password" to password))
             if (response.isSuccessful && response.body() != null) {
-                Result.success(response.body()!!)
+                val authResponse = response.body()!!
+                sessionManager.saveSession(authResponse)
+                Result.success(authResponse)
             } else {
-                Result.failure(Exception("Giriş başarısız: ${response.message()}"))
+                val errorBody = response.errorBody()?.string() ?: ""
+                Result.failure(Exception("Giriş başarısız: ${response.code()} $errorBody"))
             }
         } catch (e: Exception) {
             Result.failure(e)
@@ -38,9 +42,17 @@ class AuthRepositoryImpl(
             )
             val response = authService.register(request)
             if (response.isSuccessful && response.body() != null) {
-                Result.success(response.body()!!)
+                val authResponse = response.body()!!
+                sessionManager.saveSession(authResponse)
+                Result.success(authResponse)
             } else {
-                Result.failure(Exception("Kayıt başarısız: ${response.message()}"))
+                val errorBody = response.errorBody()?.string() ?: ""
+                val errorMsg = if (response.code() == 409 || errorBody.contains("email_taken")) {
+                    "email_taken"
+                } else {
+                    "${response.code()} $errorBody"
+                }
+                Result.failure(Exception(errorMsg))
             }
         } catch (e: Exception) {
             Result.failure(e)
@@ -50,8 +62,10 @@ class AuthRepositoryImpl(
     override suspend fun logout(): Result<Unit> = withContext(Dispatchers.IO) {
         try {
             val response = authService.logout()
+            sessionManager.clearSession()
             if (response.isSuccessful) Result.success(Unit) else Result.failure(Exception("Çıkış hatası"))
         } catch (e: Exception) {
+            sessionManager.clearSession()
             Result.failure(e)
         }
     }
@@ -60,7 +74,9 @@ class AuthRepositoryImpl(
         try {
             val response = authService.refreshToken(mapOf("refreshToken" to refreshToken))
             if (response.isSuccessful && response.body() != null) {
-                Result.success(response.body()!!)
+                val authResponse = response.body()!!
+                sessionManager.saveSession(authResponse)
+                Result.success(authResponse)
             } else {
                 Result.failure(Exception("Token yenileme hatası"))
             }

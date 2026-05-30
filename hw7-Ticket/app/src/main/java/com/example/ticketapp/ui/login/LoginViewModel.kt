@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ticketapp.core.util.toUserMessage
 import com.example.ticketapp.domain.model.AuthResponse
 import com.example.ticketapp.domain.repository.AuthRepository
 import kotlinx.coroutines.launch
@@ -29,7 +30,7 @@ class LoginViewModel(
             val result = authRepository.login(email, password)
             uiState = result.fold(
                 onSuccess = { LoginUiState.Success(it) },
-                onFailure = { LoginUiState.Error(it.message ?: "Bilinmeyen hata") }
+                onFailure = { LoginUiState.Error(it.toUserMessage()) }
             )
         }
     }

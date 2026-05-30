@@ -13,7 +13,9 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel = koinViewModel() // KOIN İLE ENJEKTE EDİLDİ 🚀
+    viewModel: LoginViewModel = koinViewModel(),
+    onNavigateToDashboard: () -> Unit,
+    onNavigateToRegister: () -> Unit
 ) {
     val context = LocalContext.current
     var email by remember { mutableStateOf("") }
@@ -57,6 +59,12 @@ fun LoginScreen(
             ) {
                 Text("Giriş Yap")
             }
+            
+            Spacer(modifier = Modifier.height(8.dp))
+            
+            TextButton(onClick = onNavigateToRegister) {
+                Text("Hesabın yok mu? Kayıt Ol")
+            }
         }
 
         // Durum takibi
@@ -64,6 +72,7 @@ fun LoginScreen(
             when (state) {
                 is LoginUiState.Success -> {
                     Toast.makeText(context, "Giriş Başarılı! Hoş geldin ${state.data.user.firstName}", Toast.LENGTH_LONG).show()
+                    onNavigateToDashboard()
                 }
                 is LoginUiState.Error -> {
                     Toast.makeText(context, "Hata: ${state.message}", Toast.LENGTH_LONG).show()
