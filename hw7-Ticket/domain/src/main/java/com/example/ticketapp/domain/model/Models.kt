@@ -1,14 +1,32 @@
 package com.example.ticketapp.domain.model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
+// API'den gelen rol değerleri: "USER", "STAFF", "ADMIN"
+enum class UserRole {
+    USER, STAFF, ADMIN;
+
+    companion object {
+        fun from(value: String?): UserRole = when (value?.uppercase()) {
+            "ADMIN" -> ADMIN
+            "STAFF" -> STAFF
+            else -> USER
+        }
+    }
+}
 
 @Serializable
 data class User(
     val id: String,
     val email: String,
+    val role: String? = null, // "USER", "STAFF", "ADMIN"
     val firstName: String? = null,
     val lastName: String? = null
-)
+) {
+    // Kolay erişim için computed property
+    val userRole: UserRole get() = UserRole.from(role)
+}
 
 @Serializable
 data class AuthResponse(

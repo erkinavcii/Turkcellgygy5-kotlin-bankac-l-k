@@ -1,5 +1,6 @@
 package com.example.ticketapp.di
 
+import com.example.ticketapp.ui.admin.AdminDashboardViewModel
 import com.example.ticketapp.ui.dashboard.DashboardViewModel
 import com.example.ticketapp.ui.login.LoginViewModel
 import com.example.ticketapp.ui.register.RegisterViewModel
@@ -21,5 +22,10 @@ val appModule = module {
     // DashboardViewModel'ı Koin'e kaydet (EventRepository, TicketRepository, SessionManager)
     viewModel {
         DashboardViewModel(get(), get(), get())
+    }
+
+    // AdminDashboardViewModel'ı Koin'e kaydet (EventRepository, AdminRepository, SessionManager)
+    viewModel {
+        AdminDashboardViewModel(get(), get(), get())
     }
 }

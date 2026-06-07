@@ -12,13 +12,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.ticketapp.core.SessionManager
+import com.example.ticketapp.domain.model.UserRole
+import com.example.ticketapp.ui.admin.AdminDashboardScreen
 import com.example.ticketapp.ui.dashboard.DashboardScreen
 import com.example.ticketapp.ui.login.LoginScreen
 import com.example.ticketapp.ui.register.RegisterScreen
 import org.koin.android.ext.android.inject
 
 enum class Screen {
-    Login, Register, Dashboard
+    Login, Register, Dashboard, AdminDashboard
 }
 
 class MainActivity : ComponentActivity() {
@@ -49,10 +51,16 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    var currentScreen by remember { 
+                    // Oturum açıksa role göre başlangıç ekranını belirle
+                    var currentScreen by remember {
                         mutableStateOf(
-                            if (sessionManager.isLoggedIn) Screen.Dashboard else Screen.Login
-                        ) 
+                            when {
+                                !sessionManager.isLoggedIn -> Screen.Login
+                                sessionManager.session?.user?.userRole == UserRole.ADMIN ||
+                                sessionManager.session?.user?.userRole == UserRole.STAFF -> Screen.AdminDashboard
+                                else -> Screen.Dashboard
+                            }
+                        )
                     }
 
                     // Seamless state transition container
@@ -68,6 +76,9 @@ class MainActivity : ComponentActivity() {
                                 LoginScreen(
                                     onNavigateToDashboard = {
                                         currentScreen = Screen.Dashboard
+                                    },
+                                    onNavigateToAdmin = {
+                                        currentScreen = Screen.AdminDashboard
                                     },
                                     onNavigateToRegister = {
                                         currentScreen = Screen.Register
@@ -86,6 +97,14 @@ class MainActivity : ComponentActivity() {
                             }
                             Screen.Dashboard -> {
                                 DashboardScreen(
+                                    onLogout = {
+                                        sessionManager.clearSession()
+                                        currentScreen = Screen.Login
+                                    }
+                                )
+                            }
+                            Screen.AdminDashboard -> {
+                                AdminDashboardScreen(
                                     onLogout = {
                                         sessionManager.clearSession()
                                         currentScreen = Screen.Login

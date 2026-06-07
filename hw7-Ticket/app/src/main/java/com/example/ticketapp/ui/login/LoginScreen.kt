@@ -15,6 +15,7 @@ import org.koin.androidx.compose.koinViewModel
 fun LoginScreen(
     viewModel: LoginViewModel = koinViewModel(),
     onNavigateToDashboard: () -> Unit,
+    onNavigateToAdmin: () -> Unit,
     onNavigateToRegister: () -> Unit
 ) {
     val context = LocalContext.current
@@ -67,12 +68,23 @@ fun LoginScreen(
             }
         }
 
-        // Durum takibi
+        // Rol tabanlı yönlendirme
         LaunchedEffect(state) {
             when (state) {
                 is LoginUiState.Success -> {
-                    Toast.makeText(context, "Giriş Başarılı! Hoş geldin ${state.data.user.firstName}", Toast.LENGTH_LONG).show()
-                    onNavigateToDashboard()
+                    val role = state.data.user.userRole
+                    val greeting = state.data.user.email
+                    when (role) {
+                        com.example.ticketapp.domain.model.UserRole.ADMIN,
+                        com.example.ticketapp.domain.model.UserRole.STAFF -> {
+                            Toast.makeText(context, "Yönetici Paneline Hoş Geldin! ($greeting)", Toast.LENGTH_LONG).show()
+                            onNavigateToAdmin()
+                        }
+                        com.example.ticketapp.domain.model.UserRole.USER -> {
+                            Toast.makeText(context, "Giriş Başarılı! Hoş geldin $greeting", Toast.LENGTH_LONG).show()
+                            onNavigateToDashboard()
+                        }
+                    }
                 }
                 is LoginUiState.Error -> {
                     Toast.makeText(context, "Hata: ${state.message}", Toast.LENGTH_LONG).show()
