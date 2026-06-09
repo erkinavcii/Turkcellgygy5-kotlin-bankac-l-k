@@ -17,6 +17,7 @@ import com.example.ticketapp.ui.admin.AdminDashboardScreen
 import com.example.ticketapp.ui.dashboard.DashboardScreen
 import com.example.ticketapp.ui.login.LoginScreen
 import com.example.ticketapp.ui.register.RegisterScreen
+import com.example.ticketapp.ui.theme.Typography
 import org.koin.android.ext.android.inject
 
 enum class Screen {
@@ -45,7 +46,8 @@ class MainActivity : ComponentActivity() {
             )
 
             MaterialTheme(
-                colorScheme = darkColors
+                colorScheme = darkColors,
+                typography = Typography
             ) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
